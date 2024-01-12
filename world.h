@@ -38,3 +38,31 @@ struct random{
         return list[dis(gen)];                                     // return random int from vector
     };
 };
+
+struct common: public Patch<world,human,common>{
+    using basePatch = Patch<world,human,common>;
+    void step();
+    bool occupied_fully;
+    bool empty;
+};
+
+struct human: public Agent<world,human,common>{
+    using baseAgent = Agent<world,human,common>;
+    void step();
+
+};
+
+struct world: public Env<world,human,common>{
+
+    using baseEnv = Env<world,human,common>;
+
+    world():Env<world,human,common>(){
+    };
+
+    void setup_humans(){
+
+    };
+    void setup_commons(){
+
+    };
+}
