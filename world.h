@@ -22,7 +22,7 @@ using DataType = std::map<std::string,std::vector<float>>;
 // The previous line declares the Alias "DataType" to be the type: f : std::string -> std::vector<float>
 
 struct random{
-    static double randrage(double min, double max){
+    static double randrange(double min, double max){
         std::random_device rd;                         // get seed from op-system
         std::mt19937 gen(rd());                        // gen is now random number generator engine
         std::uniform_real_distribution<> dis(min,max); // generate random double
