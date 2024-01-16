@@ -4,13 +4,105 @@
 #include <vector>
 #include <chrono>
 
+struct Labour_prod{
+        // We use this in the struct "PARAMS" to safe parameters that differ for the different types of productive groups
+
+        // I dont quite understand yet why labour prod is defined for PMG1-3 even though we have 6 PMGs
+        static float ESG;
+        static float ERG;
+        static float PMG1;
+        static float PMG2;
+        static float PMG3;
+        static float LMG;
+        static float CMG;
+};
+
+struct Prod_means_intensity{
+        // We use this in the struct "PARAMS" to safe parameters that differ for the different types of productive groups
+        
+        // I dont quite understand yet why labour prod is defined for PMG1-3 even though we have 6 PMGs
+        static float ESG;
+        static float ERG;
+        static float PMG1;
+        static float PMG2;
+        static float PMG3;
+        static float LMG;
+        static float CMG;
+};
+
+struct Reserve_target{
+        // We use this in the struct "PARAMS" to safe parameters that differ for the different types of productive groups
+        
+        // I dont quite understand yet why labour prod is defined for PMG1-3 even though we have 6 PMGs
+        static float ESG;
+        static float ERG;
+        static float PMG1;
+        static float PMG2;
+        static float PMG3;
+        static float LMG;
+        static float CMG;
+};
+
+struct Inventory_waste_rate{
+        // We use this in the struct "PARAMS" to safe parameters that differ for the different types of productive groups
+        
+        // I dont quite understand yet why labour prod is defined for PMG1-3 even though we have 6 PMGs
+        static float ESG;
+        static float ERG;
+        static float PMG1;
+        static float PMG2;
+        static float PMG3;
+        static float LMG;
+        static float CMG;
+};
+
+struct Depreciation_rate_p_means{
+        // We use this in the struct "PARAMS" to safe parameters that differ for the different types of productive groups
+        
+        // I dont quite understand yet why labour prod is defined for PMG1-3 even though we have 6 PMGs
+        static float ESG;
+        static float ERG;
+        static float PMG1;
+        static float PMG2;
+        static float PMG3;
+        static float LMG;
+        static float CMG;
+};
+
+struct Pollution_intensity{
+        // We use this in the struct "PARAMS" to safe parameters that differ for the different types of productive groups
+        
+        // I dont quite understand yet why labour prod is defined for PMG1-3 even though we have 6 PMGs
+        static float ESG;
+        static float ERG;
+        static float PMG1;
+        static float PMG2;
+        static float PMG3;
+        static float LMG;
+        static float CMG;
+};
+
+struct Abs_pollution_intensity{
+        // We use this in the struct "PARAMS" to safe parameters that differ for the different types of productive groups
+        
+        // I dont quite understand yet why labour prod is defined for PMG1-3 even though we have 6 PMGs
+        static float ESG;
+        static float ERG;
+        static float PMG1;
+        static float PMG2;
+        static float PMG3;
+        static float LMG;
+        static float CMG;
+};
+
 struct PARAMS{
     // the "static" thing in front of the var declarations makes that whenever we change them later
     // it will be changed for all intances of the PARAMS struct
 
     
     // VARIABLE DECLARATION                                 // VARIABLE NAME IN ODD                   // FURTHER EXPLANATIONS
-    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
+    // _____________________________________________________________________________________________________________________________________________________________
+
     // System Setup
     static unsigned sim_length;                                                                       // how long the simulation shall run
     static unsigned pop_size;                               // Population size                        // how many agents we initialize the simulation with
@@ -24,7 +116,7 @@ struct PARAMS{
                                                                                                      // the latter would be nice to be changable outside of code
                                                                                                      // this shall be made possible at some point but for now 6 
                                                                                                      // as default is okay
-    static unsigned* num_PMGs_per_sector;                    // Number of PMGs per sector
+    static unsigned* num_PMGs_per_sector;                   // Number of PMGs per sector
                                            
     static unsigned num_connections;                        // Number of connections
     static unsigned initial_culture_inventory;              // initial level of culure inventories
@@ -32,13 +124,14 @@ struct PARAMS{
 
 
     // Enviroment Setup
-
+    // --------------------------------------------------------------------------------------------------------------------------------------------------------------
     static unsigned initial_poll_level;                     // Initial level of pollution
     static unsigned initial_sink_level;                     // Initial Level of sinks
     static unsigned sink_productivity;                      // Sink productivity
     static float pollution_multiplier;                      // Pollution multiplier
 
     // Agents Setup
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------
             // Idk yet if we want the params for the agents 
             // to be static or if we want them to be able to 
             // be different for each agent.
@@ -59,23 +152,47 @@ struct PARAMS{
     static float prob_care_need;                                                                     // Probability for care need
     static float link_care_demand_time_spent;                                                        // Link between care demand and time spent by agents
     
-    static float agent_to_group_adaptation_rate;
-    static float agent_prio_adaptaion_rate;
-    static float multiplier_severity_extra_care;
+    static float agent_to_group_adaptation_rate;                                                     // General adaptation rate of agent-to-group values
+    static float agent_prio_adaptaion_rate;                                                          // General adaption rate of agent prioritiers for life and productive groups
+    static float multiplier_severity_extra_care;                                                     // Multiplier of severity of extra care demand
 
         // not static 
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     float severity_care_need;
 
         // not static culture specific
-    float ego_level;
-    float leisure_level;
-    float eco_level;
-    float prod_level;
+    float ego_level;                                        // Ego level                            // The following four are the factors that determine an agents culture  
+    float leisure_level;                                    // Leisure level
+    float eco_level;                                        // Eco level
+    float prod_level;                                       // Productivity level
 
-    float culture_trends;
+    float culture_trends;                                   // Characteristic trends of cultures
 
+    // Life Groups
+    // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+    static unsigned groupsize;                              // Groupsize 
+    static float labour_prod_for_icm;                       // Labour productivity for production of on icm
 
+    // Productive Groups
+    // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Labour_prod labour_prod;                                // Labour productivity
+    Prod_means_intensity prod_means_intensity;              // Productive means intensity   
+    Reserve_target reserve_target;                          // Reserve target
+    Inventory_waste_rate inventory_waste_rate;              // Waste rate of inventory
+    Depreciation_rate_p_means depreciation_rate_p_means;    // Depreciation rate of productive means
+    Pollution_intensity pollution_intensity;                // Pollution intensity
+    Abs_pollution_intensity abs_pollution_intensity;        // Absolute pollution intensity
+
+    // PMG1 specific
+
+    static float resource_intensity;                       // Resource intensity
+
+    // ERG specific 
+
+    static float sink_intensity;                           // Sink intensity
+    
 
 
 };
