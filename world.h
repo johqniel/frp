@@ -5,13 +5,81 @@
 #include <chrono>
 
 struct PARAMS{
-    static unsigned sim_length;       // how long the simulation shall run
-    static unsigned initial_agents;   // how many agents we initialize the simulation with
+    // the "static" thing in front of the var declarations makes that whenever we change them later
+    // it will be changed for all intances of the PARAMS struct
+
+
+    // System Setup
+    static unsigned sim_length;           // how long the simulation shall run
+    static unsigned pop_size;             // how many agents we initialize the simulation with
+    
+    static unsigned num_ERGs;             // number of commons of type _...
+    static unsigned num_ESGs;
+    static unsigned num_LMGs;
+    static unsigned num_CMGs;
+
+    static unsigned num_PMG_sectors = 6;      // number of sub-common-type "PMG"
+                                              // the latter would be nice to be changable outside of code
+                                              // this shall be made possible at some point but for now 6 
+                                              // as default is okay
+    static unsigned *num_PMGs_per_sector = new unsigned(num_PMG_sectors); 
+
+    static unsigned num_connections;
+    static unsigned initial_culture_inventory;
+    static float waste_rate_culture_inventory;
+
+
+    // Enviroment Setup
+
+    static unsigned initial_poll_level;
+    static unsigned initial_sink_level;
+    static unsigned sink_productivity;
+    static float pollution_multiplier;
+
+    // Agents Setup
+            // Idk yet if we want the params for the agents 
+            // to be static or if we want them to be able to 
+            // be different for each agent.
+        
+            // I think that I have sorted the different params
+            // such that parrams that may differ between 
+            // individuals are not static.
+
+        // static
+    static unsigned tcm_min;       // minimum transpersonal care means
+    static unsigned icm_min;
+    static unsigned lm_min;
+
+    static unsigned initial_tcm_demand;
+    static unsigned initial_icm_demand;
+    static unsigned initial_lm_demand;
+
+    static float prob_care_need;
+    static float link_care_demand_time_spent;
+    
+    static float agent_to_group_adaptation_rate;
+    static float agent_prio_adaptaion_rate;
+    static float multiplier_severity_extra_care;
+
+        // not static 
+    float severity_care_need;
+
+        // not static culture specific
+    float ego_level;
+    float leisure_level;
+    float eco_level;
+    float prod_level;
+
+    float culture_trends;
+
+
+
+
 
 };
 
 unsigned PARAMS::sim_length = 100;
-unsigned PARAMS::initial_agents = 100;
+unsigned PARAMS::pop_size = 100;
 
 struct world;
 struct human;
