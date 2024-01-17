@@ -202,7 +202,8 @@ unsigned PARAMS::pop_size = 100;
 
 struct world;
 struct human;
-struct common;
+struct group;
+
 
 using DataType = std::map<std::string,std::vector<float>>;
  
@@ -226,30 +227,37 @@ struct random{
     };
 };
 
-struct common: public Patch<world,human,common>{
-    using basePatch = Patch<world,human,common>;
+struct group: public Patch<world,human,group>{
+    using basePatch = Patch<world,human,group>;
     void step();
     bool occupied_fully;
-    bool empty;
 };
 
-struct human: public Agent<world,human,common>{
-    using baseAgent = Agent<world,human,common>;
+struct human: public Agent<world,human,group>{
+    using baseAgent = Agent<world,human,group>;
     void step();
 
 };
 
-struct world: public Env<world,human,common>{
+struct life_group: public Patch<world,human,group>{
+    using basePatch = Patch<world,human,group>;
+    void step();
+};
 
-    using baseEnv = Env<world,human,common>;
+struct world: public Env<world,human,group>{
 
-    world():Env<world,human,common>(){
+    using baseEnv = Env<world,human,group>;
+
+    world():Env<world,human,group>(){
     };
 
     void setup_humans(){
 
     };
-    void setup_commons(){
+    void setup_productive_groups(){
+
+    };
+    void setup_life_groups(){
 
     };
 };

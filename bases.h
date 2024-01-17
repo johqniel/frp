@@ -129,7 +129,7 @@ struct Patch: public enable_shared_from_this<PATCH>{
         return _agents;
         
     }
-    bool is_empty(){
+    bool empty(){
         for (auto&agent:this->agents){
             shared_ptr<AGENT> p = agent.lock();
             if (p){
@@ -368,7 +368,7 @@ inline void Env<ENV,AGENT,PATCH>::process_move(){
                 
             }
             // check if another agent hasn't already taken it 
-            if (!dest->is_empty()){ 
+            if (!dest->empty()){ 
                 // failure: manage how to respond
                 
                 if (this->agents[i]->_move._quiet){ // only throw when it's forced
@@ -421,7 +421,7 @@ inline void Env<ENV,AGENT,PATCH>::process_hatch(){
                 
             }
             // check if another agent hasn't already taken it 
-            if (!patch->is_empty()){ 
+            if (!patch->empty()){ 
                 // failure: manage how to respond
                 
                 if (this->agents[i]->_hatch._quiet){ // only throw when it's forced
@@ -503,7 +503,7 @@ inline map<string,unsigned> Env<ENV,AGENT,PATCH>::count_agents(){
 }
 template<class ENV, class AGENT, class PATCH>
 inline void Env<ENV,AGENT,PATCH>::place_agent(shared_ptr<PATCH> patch,shared_ptr<AGENT> agent, bool quiet ){
-    if (!patch->is_empty() && !quiet){
+    if (!patch->empty() && !quiet){
 
         cerr<<"placing agent in a patch which has already an agent"<<endl;
         throw patch_availibility("placing agent in a patch which has already an agent");
@@ -580,7 +580,7 @@ shared_ptr<PATCH> Patch<ENV,AGENT,PATCH>::empty_neighbor(bool quiet){
         std::mt19937 g(rd());
         std::shuffle(neighbors.begin(),neighbors.end(),g);
         for (auto &neighbor:neighbors){
-            if (neighbor->is_empty()){
+            if (neighbor->empty()){
                 return neighbor;
             }
         }
