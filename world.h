@@ -235,6 +235,10 @@ struct group: public Patch<world,human,group>{
 
 struct human: public Agent<world,human,group>{
     using baseAgent = Agent<world,human,group>;
+
+    human(shared_ptr<world> env, string class_name):baseAgent(env, class_name){
+    };
+
     void step();
 
 };
@@ -251,8 +255,36 @@ struct world: public Env<world,human,group>{
     world():Env<world,human,group>(){
     };
 
-    void setup_humans(){
+    void reset(unsigned iter_i = 0){
+		this->agents.clear();
+		this->patches.clear();
+		this->iter_i = iter_i;
+		this->data = {{"Humans",{}},{"Lifegroups",{}},{"Productivegroups",{}},{"memory",{}}};
+		this->setup_groups("life");
+        this->setup_groups("productive");
+		this->setup_humans();
+	}
 
+    void setup_groups(string class_name){
+        if (class_name == "life"){
+            this->setup_life_groups();
+        }
+        else if (class_name == "productive"){
+            this->setup_productive_groups();
+        }
+        else throw;
+    };
+
+    void setup_humans(){
+        string agent_name;
+        agent_name = "human";
+        int number = PARAMS::pop_size;
+        for (unsigned i = 0; i < number; i++){
+            auto a = this->generate_agent(agent_name);
+            auto dest_index = random::choice(this->patches_keys);
+            auto dest = this-> patches[dest_index];
+            this->place_agent(dest,a,true);
+        }
     };
     void setup_productive_groups(){
 
@@ -260,4 +292,16 @@ struct world: public Env<world,human,group>{
     void setup_life_groups(){
 
     };
+
+    shared_ptr<human> generate_agent(string agent_name){
+        shared_ptr<human> obj;
+        obj = make_shared<human>(this->shared_from_this(),agent_name);
+        this->agents.push_back(obj);
+        return obj;
+    };
+
+
+    DataType data;
+	unsigned iter_i;
+
 };
