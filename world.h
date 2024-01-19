@@ -201,7 +201,7 @@ unsigned PARAMS::sim_length = 100;
 unsigned PARAMS::pop_size = 100;
 
 struct world;
-struct human;
+struct agent;
 struct group;
 
 
@@ -227,32 +227,42 @@ struct random{
     };
 };
 
-struct group: public Patch<world,human,group>{
-    using basePatch = Patch<world,human,group>;
+struct local_patch: public Patch<world,agent,local_patch>{
+    using basePatch = Patch<world,agent,local_patch>;
+    local_patch(shared_ptr<world> env,MESH_ITEM mesh_item):basePatch(env,mesh_item){
+	}
     void step();
-    bool occupied_fully;
 };
 
-struct human: public Agent<world,human,group>{
-    using baseAgent = Agent<world,human,group>;
+struct agent: public Agent<world,agent,local_patch>{
+    using baseAgent = Agent<world,agent,local_patch>;
 
-    human(shared_ptr<world> env, string class_name):baseAgent(env, class_name){
+    agent(shared_ptr<world> env, string class_name):baseAgent(env, class_name){
     };
 
     void step();
 
+
+    // not culture specific
+    float severity_care_need;
+
+    // culture specific
+    float ego_level;                                        // Ego level                            // The following four are the factors that determine an agents culture  
+    float leisure_level;                                    // Leisure level
+    float eco_level;                                        // Eco level
+    float prod_level;                                       // Productivity level
+
+    float culture_trends;                                   // Characteristic trends of cultures
+
+
 };
 
-struct life_group: public Patch<world,human,group>{
-    using basePatch = Patch<world,human,group>;
-    void step();
-};
 
-struct world: public Env<world,human,group>{
+struct world: public Env<world,agent,local_patch>{
 
-    using baseEnv = Env<world,human,group>;
+    using baseEnv = Env<world,agent,local_patch>;
 
-    world():Env<world,human,group>(){
+    world():Env<world,agent,local_patch>(){
     };
 
     void reset(unsigned iter_i = 0){
@@ -290,15 +300,24 @@ struct world: public Env<world,human,group>{
 
     };
     void setup_life_groups(){
-
+        //int number = PARAMS::
     };
 
-    shared_ptr<human> generate_agent(string agent_name){
-        shared_ptr<human> obj;
-        obj = make_shared<human>(this->shared_from_this(),agent_name);
+    shared_ptr<agent> generate_agent(string agent_name){
+        shared_ptr<agent> obj;
+        obj = make_shared<agent>(this->shared_from_this(),agent_name);
         this->agents.push_back(obj);
         return obj;
     };
+
+    shared_ptr<local_patch> generate_patch(MESH_ITEM mesh_item){
+        // We use the mesh_structure provided by 
+        // Cppy even though we dont need it. 
+        // Because I dont want to change their header files. 
+		auto patch_obj = make_shared<local_patch>(this->shared_from_this(),mesh_item);
+		this->patches[mesh_item.index] = patch_obj;
+		return patch_obj;
+	}
 
 
     DataType data;
