@@ -171,7 +171,7 @@ struct PARAMS{
     // Life Groups
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    static unsigned groupsize;                              // Groupsize 
+    static unsigned lifegroup_size;                              // Groupsize 
     static float labour_prod_for_icm;                       // Labour productivity for production of on icm
 
     // Productive Groups
@@ -297,10 +297,30 @@ struct world: public Env<world,agent,local_patch>{
         }
     };
     void setup_productive_groups(){
-
+        string agent_name;
+        agent_name = "productive_group";
+        // place holder this should be made such that we 
+        // have different number for different type of productive group
+        int number = PARAMS::num_ERGs;
+        for (unsigned i = 0; i < number; i++){                  // this placed the productive group randomly somewhere on the mesh
+            auto a = this->generate_agent(agent_name);
+            auto dest_index = random::choice(this->patches_keys);
+            auto dest = this-> patches[dest_index];
+            this->place_agent(dest,a,true);
+        }
     };
+
     void setup_life_groups(){
+        string agent_name;
+        agent_name = "lifegroup";
+        int number = 1 + ((PARAMS::pop_size - 1) / PARAMS::lifegroup_size); // if popsize != 0, popsize/lifegroup_size rounded up
         //int number = PARAMS::
+        for (unsigned i = 0; i < number; i++){                  // this placed the productive group randomly somewhere on the mesh
+            auto a = this->generate_agent(agent_name);
+            auto dest_index = random::choice(this->patches_keys);
+            auto dest = this-> patches[dest_index];
+            this->place_agent(dest,a,true);
+        }
     };
 
     shared_ptr<agent> generate_agent(string agent_name){
