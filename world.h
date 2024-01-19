@@ -4,6 +4,8 @@
 #include <vector>
 #include <chrono>
 
+
+
 struct Labour_prod{
         // We use this in the struct "PARAMS" to safe parameters that differ for the different types of productive groups
 
@@ -112,11 +114,9 @@ struct PARAMS{
     static unsigned num_LMGs;                               // Number of LMGs 
     static unsigned num_CMGs;                               // Number of CMGs 
 
-    static unsigned num_PMG_sectors;                        // Number of PMG sectors                 // number of sub-common-type "PMG"
-                                                                                                     // the latter would be nice to be changable outside of code
-                                                                                                     // this shall be made possible at some point but for now 6 
-                                                                                                     // as default is okay
-    static unsigned* num_PMGs_per_sector;                   // Number of PMGs per sector
+    static unsigned num_PMG1;                        // Number of PMG sectors                 // number of sub-common-type "PMG"
+    static unsigned num_PMG2;
+    static unsigned num_PMG3;                                                                                                 
                                            
     static unsigned num_connections;                        // Number of connections
     static unsigned initial_culture_inventory;              // initial level of culure inventories
@@ -176,7 +176,10 @@ struct PARAMS{
 
     // Productive Groups
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+    static std::array<std::string,7> prod_group_names;                                            // This contains the names of the different prod groups: ["ESG","ERG", ...]
 
+    static std::map<std::string, int> prod_group_num;                                             // A map that gives you the number of groups given the group type, myMap: "ESG" -> PARAMS::num_ESGs
+    
     Labour_prod labour_prod;                                // Labour productivity
     Prod_means_intensity prod_means_intensity;              // Productive means intensity   
     Reserve_target reserve_target;                          // Reserve target
@@ -199,6 +202,8 @@ struct PARAMS{
 
 unsigned PARAMS::sim_length = 100;
 unsigned PARAMS::pop_size = 100;
+
+
 
 struct world;
 struct agent;
@@ -297,8 +302,18 @@ struct world: public Env<world,agent,local_patch>{
         }
     };
     void setup_productive_groups(){
-        string agent_name;
-        agent_name = "productive_group";
+        std::string agent_name;
+        for (std::string type_ : PARAMS::prod_group_names){
+            agent_name = type_;
+            for (unsigned i = 0; i < PARAMS::prod_group_num[type_];i++){
+                auto a = this->generate_agent(agent_name);
+                auto dest_index = random::choice(this->patches_keys);
+                auto dest = this-> patches[dest_index];
+                this->place_agent(dest,a,true);
+            };
+        }
+        
+        
         // place holder this should be made such that we 
         // have different number for different type of productive group
         int number = PARAMS::num_ERGs;
