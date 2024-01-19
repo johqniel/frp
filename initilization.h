@@ -1,4 +1,4 @@
-#include "world.h"
+#include "world.h" // this somehow causes errors :-( 
 #include <random>
 #include <vector>
 #include <chrono>
@@ -12,8 +12,8 @@ void initilize_PARAMS(){
     PARAMS::prod_group_num["ERG"] = PARAMS::num_ERGs;
     PARAMS::prod_group_num["CMG"] = PARAMS::num_CMGs;
     PARAMS::prod_group_num["LMG"] = PARAMS::num_LMGs;
-    PARAMS::prod_group_num["PMG1"] = PARAMS::num_PMG1s;
+    PARAMS::prod_group_num["PMG1"] = PARAMS::num_PMG1;
     PARAMS::prod_group_num["PMG2"] = PARAMS::num_PMG2;
     PARAMS::prod_group_num["PMG3"] = PARAMS::num_PMG3;
 
-}
+};
