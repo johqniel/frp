@@ -311,18 +311,7 @@ struct world: public Env<world,agent,local_patch>{
                 auto dest = this-> patches[dest_index];
                 this->place_agent(dest,a,true);
             };
-        }
-        
-        
-        // place holder this should be made such that we 
-        // have different number for different type of productive group
-        int number = PARAMS::num_ERGs;
-        for (unsigned i = 0; i < number; i++){                  // this placed the productive group randomly somewhere on the mesh
-            auto a = this->generate_agent(agent_name);
-            auto dest_index = random::choice(this->patches_keys);
-            auto dest = this-> patches[dest_index];
-            this->place_agent(dest,a,true);
-        }
+        };
     };
 
     void setup_life_groups(){
@@ -353,6 +342,13 @@ struct world: public Env<world,agent,local_patch>{
 		this->patches[mesh_item.index] = patch_obj;
 		return patch_obj;
 	}
+
+
+    // The following defines the order of the different things happening when 
+    // We do a step in the time-line. The order is defined in the ODD protocoll.
+    void step(){
+        
+    }
 
 
     DataType data;
