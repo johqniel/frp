@@ -347,11 +347,43 @@ struct world: public Env<world,agent,local_patch>{
     // The following defines the order of the different things happening when 
     // We do a step in the time-line. The order is defined in the ODD protocoll.
     void step(){
-        
-    }
-
+        this->group_updates();
+        this->group_signals();
+        this->agent_updates();
+        this->groups_plan_production(); // ex-ante coordination
+        this->produtcion_delivery_by_prod_groups();
+        this->biophysical_processes();
+        this->care_consumption();
+        this->production_and_delivery_by_life_groups();
+    };
 
     DataType data;
 	unsigned iter_i;
 
+};
+ 
+
+inline void world::group_updates(){
+
+};
+inline void world::group_signals(){
+
+};
+inline void world::agent_updates(){
+
+};
+inline void world::groups_plan_production(){
+
+}; 
+inline void world::produtcion_delivery_by_prod_groups(){
+
+};
+inline void world::biophysical_processes(){
+
+};
+inline void world::care_consumption(){
+
+};
+inline void world::production_and_delivery_by_life_groups(){
+    
 };
