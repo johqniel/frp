@@ -19,6 +19,23 @@
 
 // apparently w_it is infact agent specific. it is called care_impact in ODD protocoll.
 
+//------------ Equations for groups ----------------------------------------------
+
+// the output variable is calles q_j,t in the equations in the ODD protocoll
+// PM_current = X_j,t^pm , ER_current = x_j,t^R, time_available = x_j,t^ph
+// I believe that a_4,a_5,a_6 are global constants. 
+float compute_output(float a_4_sector, float a_5_sector, float a_6_sector,float PM_current_, float ER_current_, float time_available_){
+    float output_;
+    float a = PM_current_ / a_5_sector;
+    float b = ER_current_ / a_6_sector;
+    output_ = std::min({a,b,time_available_});
+    output_ = a_4_sector * output_;
+    return(output_);
+};
+
+
+//------------ Equations for humans ----------------------------------------------
+
 float personal_characteristics(float old_level, 
                                float c_pgc_trend, 
                                float c_lgc_trend,
