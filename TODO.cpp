@@ -16,3 +16,9 @@
 // TODO in initilization.h
 
 // most of the variables in the PARAMS struct still have to be initilized
+
+//---------------------------------------------------------------------------------------------------------
+
+// TODO in equations.h
+
+// Add the random thin in the update of the agents characteristics.

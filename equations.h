@@ -57,7 +57,7 @@ float personal_characteristics(float old_level,
 // it appears as if:
 // 1. w_it,  a_one and maybe as well icm_min are global constant variables 
 // 2. w_it = (1 - care-impact)
-float icm_targets(float iCM_min, 
+float icm_targets(float icm_min, 
                   float a_one, 
                   float w_it, 
                   float ego_level){
@@ -92,6 +92,7 @@ float g_it(float lm_c_prod_group_mean,
     float g_it_;
     g_it_ = (lm_c_prod_group_mean + lm_c_life_group_mean) / 2 - lm_old;
     g_it_ = g_it_ * ego_level * e_it * gen_random_float(1 - eco_level); 
+    return(g_it);
 }; 
 
 // TODO:

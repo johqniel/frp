@@ -1,5 +1,6 @@
 #include "bases.h"
 #include "mesh.h"
+#include "equations.h"
 #include <random>
 #include <vector>
 #include <chrono>
@@ -351,11 +352,22 @@ struct world: public Env<world,agent,local_patch>{
         this->group_signals();
         this->agent_updates();
         this->groups_plan_production(); // ex-ante coordination
-        this->produtcion_delivery_by_prod_groups();
+        this->production_delivery_by_prod_groups();
         this->biophysical_processes();
         this->care_consumption();
         this->production_and_delivery_by_life_groups();
     };
+
+
+    void group_updates();
+    void group_signals();
+    void agent_updates();
+    void groups_plan_production();
+    void production_delivery_by_prod_groups();
+    void biophysical_processes();
+    void care_consumption();
+    void production_and_delivery_by_life_groups();
+
 
     DataType data;
 	unsigned iter_i;
@@ -375,7 +387,7 @@ inline void world::agent_updates(){
 inline void world::groups_plan_production(){
 
 }; 
-inline void world::produtcion_delivery_by_prod_groups(){
+inline void world::production_delivery_by_prod_groups(){
 
 };
 inline void world::biophysical_processes(){
